@@ -44,6 +44,9 @@
 #  define RNNOISE_EXPORT
 # endif
 #endif
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 typedef struct DenoiseState DenoiseState;
 typedef struct RNNModel RNNModel;
@@ -62,4 +65,7 @@ RNNOISE_EXPORT RNNModel *rnnoise_model_from_file(FILE *f);
 
 RNNOISE_EXPORT void rnnoise_model_free(RNNModel *model);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

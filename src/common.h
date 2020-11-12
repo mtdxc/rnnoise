@@ -5,9 +5,13 @@
 
 #include "stdlib.h"
 #include "string.h"
-
+#ifdef _WIN32
+#define RNN_INLINE 
+#define OPUS_INLINE 
+#else
 #define RNN_INLINE inline
 #define OPUS_INLINE inline
+#endif
 
 
 /** RNNoise wrapper for malloc(). To do your own dynamic allocation, all you need t
