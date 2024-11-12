@@ -242,10 +242,12 @@ RNNModel *rnnoise_model_from_buffer(const void *ptr, int len) {
 }
 
 RNNModel *rnnoise_model_from_filename(const char *filename) {
-  RNNModel *model;
+  RNNModel *model = NULL;
   FILE *f = fopen(filename, "rb");
-  model = rnnoise_model_from_file(f);
-  model->file = f;
+  if (f) {
+    model = rnnoise_model_from_file(f);
+    model->file = f;
+  }
   return model;
 }
 

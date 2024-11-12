@@ -33,14 +33,16 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #include <errno.h>
 #include "rnnoise.h"
 #include "common.h"
 #include "denoise.h"
 #include "arch.h"
 #include "kiss_fft.h"
-#include "src/_kiss_fft_guts.h"
+#include "_kiss_fft_guts.h"
 
 int lowpass = FREQ_SIZE;
 int band_lp = NB_BANDS;
