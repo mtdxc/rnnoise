@@ -34,7 +34,7 @@
 
 #define SPARSE_BLOCK_SIZE 32
 
-static int parse_record(const void **data, int *len, WeightArray *array) {
+static int parse_record(unsigned char** data, int *len, WeightArray *array) {
   WeightHead *h = (WeightHead *)*data;
   if (*len < WEIGHT_BLOCK_SIZE) return -1;
   if (h->block_size < h->size) return -1;
@@ -44,10 +44,10 @@ static int parse_record(const void **data, int *len, WeightArray *array) {
   array->name = h->name;
   array->type = h->type;
   array->size = h->size;
-  array->data = (void*)((unsigned char*)(*data)+WEIGHT_BLOCK_SIZE);
+  array->data = *data + WEIGHT_BLOCK_SIZE;
 
-  *data = (void*)((unsigned char*)*data + h->block_size+WEIGHT_BLOCK_SIZE);
-  *len -= h->block_size+WEIGHT_BLOCK_SIZE;
+  *data += h->block_size+WEIGHT_BLOCK_SIZE;
+  *len  -= h->block_size+WEIGHT_BLOCK_SIZE;
   return array->size;
 }
 
@@ -59,7 +59,7 @@ int parse_weights(WeightArray **list, const void *data, int len)
   while (len > 0) {
     int ret;
     WeightArray array = {NULL, 0, 0, 0};
-    ret = parse_record(&data, &len, &array);
+    ret = parse_record((unsigned char**)&data, &len, &array);
     if (ret > 0) {
       if (nb_arrays+1 >= capacity) {
         /* Make sure there's room for the ending NULL element too. */

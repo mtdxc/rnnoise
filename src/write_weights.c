@@ -63,14 +63,15 @@ void write_weights(const WeightArray *list, FILE *fout)
     celt_assert(sizeof(h) == WEIGHT_BLOCK_SIZE);
     fwrite(&h, 1, WEIGHT_BLOCK_SIZE, fout);
     fwrite(list[i].data, 1, h.size, fout);
-    fwrite(zeros, 1, h.block_size-h.size, fout);
+    if (h.size != h.block_size)
+        fwrite(zeros, 1, h.block_size-h.size, fout);
     i++;
   }
 }
 
 int main(void)
 {
-  FILE *fout = fopen("weights_blob.bin", "w");
+  FILE *fout = fopen("weights_blob.bin", "wb");
   write_weights(rnnoise_arrays, fout);
   fclose(fout);
   return 0;
