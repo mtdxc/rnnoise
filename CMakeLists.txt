@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(RnNoise LANGUAGES C)
+project(RnNoise LANGUAGES C CXX)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 if(MSVC)
@@ -47,6 +47,9 @@ add_executable(dump_features src/dump_features.c ${RN_NOISE_SRC})
 target_compile_definitions(dump_features PUBLIC TRAINING)
 
 add_executable(dump_rnnoise_tables src/dump_rnnoise_tables.c src/kiss_fft.c)
+
+add_executable(loopback examples/loopback.cc)
+target_link_libraries(loopback PRIVATE RnNoise)
 
 add_executable(rnnoise_demo examples/rnnoise_demo.c)
 target_link_libraries(rnnoise_demo PRIVATE RnNoise)
