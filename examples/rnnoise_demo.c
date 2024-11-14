@@ -45,6 +45,10 @@ int main(int argc, char **argv) {
 #ifdef USE_WEIGHTS_FILE
   RNNModel *model = rnnoise_model_from_filename("weights_blob.bin");
   st = rnnoise_create(model);
+  if (!st) {
+    fprintf(stderr, "uanble to init rnnoise\n");
+    return;
+  }
 #else
   st = rnnoise_create(NULL);
 #endif

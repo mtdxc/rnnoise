@@ -297,12 +297,14 @@ int rnnoise_init(DenoiseState *st, RNNModel *model) {
     }
     if (ret != 0) return -1;
   }
-#ifndef USE_WEIGHTS_FILE
   else {
+#ifdef USE_WEIGHTS_FILE
+    return -1;
+#else
     int ret = init_rnnoise(&st->model, rnnoise_arrays);
     if (ret != 0) return -1;
-  }
 #endif
+  }
   st->arch = rnn_select_arch();
 #else
   (void)model;
